@@ -1,12 +1,17 @@
-var app = require('express')();
+var express = require('express');
+var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
 app.set('port', (process.env.PORT || 5000));
 
+app.use(express.static(__dirname + '/Public'));
+app.set('views', __dirname + '/Public/views');
+app.set('view engine', 'ejs');
+
 app.get('/', function(req, res){
-  //res.sendFile(_di+'index.html');
-  res.sendFile(__dirname + '/index.html');
+
+	res.render('index');
 });
 
 io.on('connection', function(socket){
@@ -21,5 +26,5 @@ io.on('connection', function(socket){
 });
 
 http.listen(app.get('port'), function(){
-  console.log('listening on *:3000');
+  console.log('listening on *:5000');
 });
